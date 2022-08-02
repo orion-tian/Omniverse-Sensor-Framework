@@ -1,25 +1,23 @@
 import csv
 
 class Parse:
-    
+    """class to parse csv files"""
+
     def parse(fileName):
-        """returns a dict {sensorID: [{time1:temp1}, {time2:temp2},...]}"""
+        """returns a dict of {sensorID: [{time1:temp1}, {time2:temp2},...]}"""
         data = {}
         with open(fileName, 'r') as file:
             csv_reader = csv.reader(file)
             fields = next(csv_reader)
-            # print(fields[0])
-            # print(fields[1])
-            # print(fields[2])
             for row in csv_reader:
-                tmptmp = {}
+                tmp = {}
                 time = row[0].strip()
                 sensorID = row[1].strip()
                 temp = row[2].strip()
-                tmptmp.update({'time':time})
-                tmptmp.update({'temp':temp})
+                tmp.update({'time':time})
+                tmp.update({'temp':temp})
                 if data.get(sensorID)==None:
-                    data.update({sensorID:[tmptmp]})
+                    data.update({sensorID:[tmp]})
                 else:
-                    data.update({sensorID:data.get(sensorID) + [tmptmp]})
+                    data.update({sensorID:data.get(sensorID) + [tmp]})
         return data

@@ -6,7 +6,8 @@ from .sensorGestures import Click
 from .useful_functions import Func
 
 class ViewportSceneInfo():
-    """Render into a Viewport"""
+    """class to render ui sensors into viewport"""
+
     def __init__(self, viewport_window, ext_id) -> None:
         self.scene_view = None
         self.viewport_window = viewport_window
@@ -14,7 +15,7 @@ class ViewportSceneInfo():
 
         self.stage_listener = None
 
-        # NEW: Create a unique frame for our SceneView
+        # Create a unique frame for our SceneView
         with self.viewport_window.get_frame(ext_id):
             # Create a default SceneView (it has a default camera-model)
             self.scene_view = sc.SceneView()
@@ -22,26 +23,27 @@ class ViewportSceneInfo():
             self.viewport_window.viewport_api.add_scene_view(self.scene_view)
     
     def drawSensors(self, primList):
-        """draws the UI sensors on top of the sphere prim sensors, 
-        the UI has gestures that respond to clicks and makes a window to display that sensor's data"""
+        """draws the UI sensors on top of the sphere prim sensors given in primList, 
+        the UI has gestures that respond to clicks and makes a pop-up window to display that sensor's data"""
         self.scene_view.scene.clear()
-        print(Func.getPrimAtPath('/World/Sensor_Results/Sensors').GetAttributes())
-        #if Func.getPrimAtPath('/World/Sensor_Results/Sensors').GetAttribute('visibility').Get() == 'inherited':
         with self.viewport_window.get_frame(self.ext_id):
             with self.scene_view.scene:
                 for prim in primList:
+                    # only draw ui sensor if it's not strictly invisible
                     if prim.GetAttribute('visibility').Get() == 'inherited':
+                        # draw sensor at center of sphere prim
                         position = self.get_position_prim(prim)
                         with sc.Transform(transform=sc.Matrix44.get_translation_matrix(*position)):
                             transform = sc.Transform(look_at=sc.Transform.LookAt.CAMERA)
                             with transform:
                                 radius = prim.GetAttribute('radius').Get()
-                                #sc.Arc(radius+20, axis=2,  color=(0,1,0,1), gesture=[Click(transform, primList[prim])])
+                                # draws ui sensor as a dark green circle with a wireframe green circle at outer edge, and attaches gesture
+                                #sc.Arc(radius+20, axis=2,  color=(0,1,0,1), gesture=[Click(transform, primList[prim])]) use this to draw sensor that does't change size in stage
                                 sc.Arc(radius, axis=2, color=cl.darkGreen, gesture=[Click(transform, primList[prim])])
                                 sc.Arc(radius, axis=2,  color=(0,1,0,1), wireframe=True, thickness=20, gesture=[Click(transform, primList[prim])])
     
     def get_position_prim(self, prim):
-        """Get position of prim directly from USD"""
+        """Get position of given prim directly from USD"""
         box_cache = UsdGeom.BBoxCache(Usd.TimeCode.Default(), includedPurposes=[UsdGeom.Tokens.default_])
         bound = box_cache.ComputeWorldBound(prim)
         range = bound.ComputeAlignedBox()
