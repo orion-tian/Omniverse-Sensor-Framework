@@ -8,6 +8,7 @@ class Sensors:
     def __init__(self, viewport_scene):
         Func.defineXform('/World/Sensor_Results')
         sensorsFold = Func.defineXform('/World/Sensor_Results/Sensors')
+        Func.defineXform('/World/Sensor_Results/Materials')
         self.sensorsFold = sensorsFold
         self.radius = 25
         self.viewport_scene = viewport_scene

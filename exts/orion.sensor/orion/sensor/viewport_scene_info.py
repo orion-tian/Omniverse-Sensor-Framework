@@ -26,7 +26,7 @@ class ViewportSceneInfo():
         the UI has gestures that respond to clicks and makes a window to display that sensor's data"""
         self.scene_view.scene.clear()
         print(Func.getPrimAtPath('/World/Sensor_Results/Sensors').GetAttributes())
-        # if Func.getPrimAtPath('/World/Sensor_Results/Sensors').GetAttribute('visibility').Get() == 'inherited':
+        #if Func.getPrimAtPath('/World/Sensor_Results/Sensors').GetAttribute('visibility').Get() == 'inherited':
         with self.viewport_window.get_frame(self.ext_id):
             with self.scene_view.scene:
                 for prim in primList:

@@ -3,7 +3,9 @@ import omni.ui as ui
 from pxr import Gf, Sdf
 from omni.ui import scene as sc
 import omni.kit.viewport
-
+import subprocess
+import sys
+import pip
 from .viewport_overlay_legend import LegendOverlay
 from .useful_functions import Func
 from .sensors import Sensors
@@ -73,7 +75,19 @@ class MyExtension(omni.ext.IExt):
             super().__init__()
             self.viewport_scene = None
 
+    def install(self, package):
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
     def on_startup(self, ext_id):
+
+
+
+        self.install("pandas")
+
+
+
+
+
         print("[orion.sensor] MyExtension startup")
         # Get active viewport and create viewport_scene to draw to
         viewport_window = omni.kit.viewport.utility.get_active_viewport_window() 
@@ -101,24 +115,24 @@ class MyExtension(omni.ext.IExt):
 
                 sensorIdCombo = Func.makeComboAndLabel("Sensor ID", MyExtension.sensorList)
                 ui.Button("Create Sensor", clicked_fn=lambda: createSensor(), style = {"font_size": 30})
-                magicNumHeight = 30  # For things to look good
-                with ui.HStack(height=0):
-                    with ui.VStack():
-                        dataComboBox = Func.makeComboAndLabel("Data", MyExtension.dataList)
+                # magicNumHeight = 30  # For things to look good
+                # with ui.HStack(height=0):
+                #     with ui.VStack():
+                #         dataComboBox = Func.makeComboAndLabel("Data", MyExtension.dataList)
                     
-                    with ui.VStack():
-                        paletteComboBox = Func.makeComboAndLabel("Legend Color Palette", MyExtension.legendColorList)
+                #     with ui.VStack():
+                #         paletteComboBox = Func.makeComboAndLabel("Legend Color Palette", MyExtension.legendColorList)
 
-                    with ui.VStack():                            
-                        directions = {'top':'top', 'bottom':'bottom', 'left':'left', 'right':'right'}
-                        directionComboBox = Func.makeComboAndLabel("Legend Placement Relative to Viewport", directions)
-                        def dummy_legend():
-                            # If energy simulation not been visualized yet, prevent creating/changing legend
-                            if MyExtension.curr_legColor == 0:
-                                return
-                            LegendOverlay.make_legend_overlay(Func.getComboValue(directionComboBox, directions), MyExtension.curr_legColor, viewport_window)
-                        directionComboBox.model.add_item_changed_fn(lambda m, i: dummy_legend())
-                ui.Button("Visualize", clicked_fn=lambda: visualizeSensor(), style = {"font_size": 30})
+                #     with ui.VStack():                            
+                #         directions = {'top':'top', 'bottom':'bottom', 'left':'left', 'right':'right'}
+                #         directionComboBox = Func.makeComboAndLabel("Legend Placement Relative to Viewport", directions)
+                #         def dummy_legend():
+                #             # If energy simulation not been visualized yet, prevent creating/changing legend
+                #             if MyExtension.curr_legColor == 0:
+                #                 return
+                #             LegendOverlay.make_legend_overlay(Func.getComboValue(directionComboBox, directions), MyExtension.curr_legColor, viewport_window)
+                #         directionComboBox.model.add_item_changed_fn(lambda m, i: dummy_legend())
+                # ui.Button("Visualize", clicked_fn=lambda: visualizeSensor(), style = {"font_size": 30})
 
     def on_shutdown(self):
         self.sensors.destroy()
