@@ -1,3 +1,6 @@
+# Omniverse Sensor Framework
+Nvidia Omniverse extension to visualize EnergyPlus sensor data with an accompanying graph. The sensor is a sphere placed at the center of the bounding box for the selected primitive, and a UI element is drawn atop the sphere to view the accompanying data and graph for the sensor. 
+
 # Extension Project Template
 
 This project was automatically generated.
