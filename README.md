@@ -1,5 +1,15 @@
 # Omniverse Sensor Framework
-Nvidia Omniverse extension to visualize EnergyPlus sensor data with an accompanying graph. The sensor is a sphere placed at the center of the bounding box for the selected primitive, and a UI element is drawn atop the sphere to view the accompanying data and graph for the sensor. 
+Nvidia Omniverse extension proof of concept to visualize real-time sensor data to work towards creating a digital twin in Omniverse.
+
+<img width="468" alt="Picture1" src="https://github.com/user-attachments/assets/eaf19c70-1c77-4c53-b92d-596a9cbcb62a">
+
+To use this extension, you will first select the mesh you want to place the sensor in and specify the sensor Id of the sensor through the drop down menu. Then, you click the Create Sensor button, and a sphere mesh is created at the center of the selected mesh’s bounding box. In addition, a UI element is drawn on top of the sphere so the location of the sensor can be easily seen no matter where the sensor or the viewport is. 
+
+The UI element can also have gestures, the human-input system of Omniverse, attached to it, meaning it can react to mouse clicks and keyboard presses. Currently, we have a click gesture attached so that when you click on the UI element, a pop-up window shows up with a graph of the sensor’s temperature data, which is currently read from a csv file we wrote. You can also adjust the position of the sphere mesh to better reflect the real world position of the sensor and the UI element will follow.
+
+The eventual goal of this framework is that the sensor’s data will drive the color of the mesh it’s associated with. Possibly using attributes and time sampling in order for colors to change in real-time when you press play in Omniverse. We also envision how this extension could draw data from the cloud to get real-time data. In fact, this system is highly extensible to other fields such as representing strain sensors on elevators or sensors at a construction site.
+
+__________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 # Extension Project Template
 
